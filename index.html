@@ -19,7 +19,6 @@
             color: #333;
         }
 
-        /* Intro Animation */
         .intro-overlay {
             position: fixed;
             top: 0;
@@ -337,7 +336,6 @@
             border-radius: 4px;
         }
 
-        /* Modal Styles */
         .modal {
             display: none;
             position: fixed;
@@ -453,11 +451,6 @@
             border-radius: 4px;
             cursor: pointer;
             font-size: 0.85em;
-            text-shadow: none;
-        }
-
-        .delete-class:hover {
-            background: #ff5252;
         }
 
         .add-session-btn {
@@ -489,7 +482,6 @@
     </style>
 </head>
 <body>
-    <!-- Intro Animation -->
     <div class="intro-overlay">
         <div class="intro-logo">
             <div class="intro-ring intro-ring-1"></div>
@@ -519,7 +511,6 @@
         <div class="calendar" id="calendar"></div>
     </div>
 
-    <!-- Add Session Modal -->
     <div class="modal" id="sessionModal">
         <div class="modal-content">
             <div class="modal-header">Add Study Session</div>
@@ -554,7 +545,6 @@
         </div>
     </div>
 
-    <!-- Add Assignment Modal -->
     <div class="modal" id="assignmentModal">
         <div class="modal-content">
             <div class="modal-header">Add Assignment</div>
@@ -593,7 +583,6 @@
         </div>
     </div>
 
-    <!-- Manage Classes Modal -->
     <div class="modal" id="classesModal">
         <div class="modal-content">
             <div class="modal-header">Manage Classes</div>
@@ -629,23 +618,62 @@
     </div>
 
     <script>
-        const data = {
-            sessions: [],
-            assignments: [],
-            classes: [
-                { name: 'Mathematics', color: '#FFB6C1' },
-                { name: 'Science', color: '#B2D3A8' },
-                { name: 'English', color: '#E6E6FA' },
-                { name: 'History', color: '#87CEEB' }
-            ]
-        };
+        console.log('🚀 Script is loading...');
 
+        function loadData() {
+            console.log('📂 loadData() called');
+            try {
+                const saved = localStorage.getItem('studyPlannerData');
+                console.log('💾 Raw localStorage data:', saved);
+                
+                if (saved) {
+                    const parsed = JSON.parse(saved);
+                    console.log('✅ Parsed data successfully:', parsed);
+                    console.log('   - Sessions:', parsed.sessions);
+                    console.log('   - Assignments:', parsed.assignments);
+                    console.log('   - Classes:', parsed.classes);
+                    return parsed;
+                } else {
+                    console.log('ℹ️ No saved data found in localStorage');
+                }
+            } catch (e) {
+                console.error('❌ Error loading data:', e);
+            }
+            
+            console.log('🔧 Returning default data');
+            return {
+                sessions: [],
+                assignments: [],
+                classes: [
+                    { name: 'Mathematics', color: '#FFB6C1' },
+                    { name: 'Science', color: '#B2D3A8' },
+                    { name: 'English', color: '#E6E6FA' },
+                    { name: 'History', color: '#87CEEB' }
+                ]
+            };
+        }
+
+        function saveData() {
+            console.log('💾 saveData() called');
+            console.log('   Saving this data:', data);
+            try {
+                localStorage.setItem('studyPlannerData', JSON.stringify(data));
+                console.log('✅ Data saved successfully to localStorage!');
+            } catch (e) {
+                console.error('❌ Error saving data:', e);
+            }
+        }
+
+        console.log('📊 Initializing data...');
+        const data = loadData();
+        console.log('📊 Current data object:', data);
+        
         let activeSession = null;
         let selectedClassColor = '#FFB6C1';
-
         const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 
         function initCalendar() {
+            console.log('📅 initCalendar() called');
             const calendar = document.getElementById('calendar');
             calendar.innerHTML = '';
             
@@ -660,15 +688,25 @@
                 calendar.appendChild(dayColumn);
             });
             
+            console.log('📅 Calendar structure created, now rendering sessions...');
             renderSessions();
         }
 
         function renderSessions() {
+            console.log('🎨 renderSessions() called');
+            console.log('   Current sessions:', data.sessions);
+            
             days.forEach(day => {
                 const container = document.querySelector(`[data-day="${day}"]`);
+                if (!container) {
+                    console.warn(`⚠️ Container for ${day} not found`);
+                    return;
+                }
                 container.innerHTML = '';
                 
                 const daySessions = data.sessions.filter(s => s.day === day);
+                console.log(`   ${day}: ${daySessions.length} sessions`);
+                
                 daySessions.forEach(session => {
                     const sessionEl = document.createElement('div');
                     sessionEl.className = 'study-session';
@@ -693,6 +731,7 @@
                     container.appendChild(sessionEl);
                 });
             });
+            console.log('✅ renderSessions() complete');
         }
 
         function renderAssignment(assignment) {
@@ -768,34 +807,12 @@
                 return;
             }
             
-            container.innerHTML = '';
-            for (let i = 0; i < data.classes.length; i++) {
-                const cls = data.classes[i];
-                const classItem = document.createElement('div');
-                classItem.className = 'class-item';
-                classItem.style.borderLeftColor = cls.color;
-                
-                const nameDiv = document.createElement('div');
-                nameDiv.className = 'class-item-name';
-                nameDiv.textContent = cls.name;
-                
-                const deleteBtn = document.createElement('button');
-                deleteBtn.className = 'delete-class';
-                deleteBtn.textContent = 'Delete';
-                deleteBtn.type = 'button';
-                deleteBtn.dataset.classIndex = i;
-                deleteBtn.onclick = function(e) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    const indexToDelete = parseInt(this.dataset.classIndex);
-                    console.log('Button clicked! Index:', indexToDelete);
-                    deleteClass(indexToDelete);
-                };
-                
-                classItem.appendChild(nameDiv);
-                classItem.appendChild(deleteBtn);
-                container.appendChild(classItem);
-            }
+            container.innerHTML = data.classes.map((cls, index) => `
+                <div class="class-item" style="border-left-color: ${cls.color};">
+                    <div class="class-item-name">${cls.name}</div>
+                    <button class="delete-class" onclick="event.stopPropagation(); deleteClass(${index})">Delete</button>
+                </div>
+            `).join('');
         }
 
         function selectColor(color) {
@@ -828,25 +845,16 @@
             
             data.classes.push({ name, color });
             document.getElementById('newClassName').value = '';
+            saveData();
             renderClassList();
         }
 
-        function deleteClass(idx) {
-            console.log('Delete clicked for index:', idx);
-            console.log('Current classes:', data.classes);
-            console.log('Class to delete:', data.classes[idx]);
-            const className = data.classes[idx].name;
-            console.log('Showing confirm dialog for:', className);
-            const confirmResult = confirm(`Delete ${className}? Assignments with this class will still exist.`);
-            console.log('Confirm result:', confirmResult);
-            if (confirmResult) {
-                console.log('User confirmed, deleting...');
-                data.classes.splice(idx, 1);
-                console.log('Classes after delete:', data.classes);
+        function deleteClass(index) {
+            const className = data.classes[index].name;
+            if (confirm(`Delete ${className}? Assignments with this class will still exist.`)) {
+                data.classes.splice(index, 1);
+                saveData();
                 renderClassList();
-                renderSessions();
-            } else {
-                console.log('User cancelled');
             }
         }
 
@@ -855,6 +863,7 @@
         }
 
         function addSession() {
+            console.log('➕ addSession() called');
             const day = document.getElementById('sessionDay').value;
             const start = document.getElementById('sessionStart').value;
             const end = document.getElementById('sessionEnd').value;
@@ -873,7 +882,9 @@
                 name
             };
             
+            console.log('   New session:', session);
             data.sessions.push(session);
+            saveData();
             renderSessions();
             closeModal('sessionModal');
             
@@ -890,6 +901,7 @@
                         a.sessionId = null;
                     }
                 });
+                saveData();
                 renderSessions();
             }
         }
@@ -917,6 +929,7 @@
             };
             
             data.assignments.push(assignment);
+            saveData();
             renderSessions();
             closeModal('assignmentModal');
             
@@ -929,7 +942,10 @@
             document.querySelectorAll('.study-session').forEach(s => {
                 s.classList.remove('active');
             });
-            document.querySelector(`[data-session-id="${sessionId}"]`).classList.add('active');
+            const sessionEl = document.querySelector(`[data-session-id="${sessionId}"]`);
+            if (sessionEl) {
+                sessionEl.classList.add('active');
+            }
             activeSession = sessionId;
         }
 
@@ -937,6 +953,7 @@
             const assignment = data.assignments.find(a => a.id === assignmentId);
             if (assignment) {
                 assignment.completed = !assignment.completed;
+                saveData();
                 renderSessions();
             }
         }
@@ -955,11 +972,24 @@
             const assignment = data.assignments.find(a => a.id === assignmentId);
             if (assignment) {
                 assignment.sessionId = sessionId;
+                saveData();
                 renderSessions();
             }
         }
 
-        initCalendar();
+        // Initialize when page loads
+        console.log('⏳ Setting up page load listener...');
+        window.addEventListener('DOMContentLoaded', function() {
+            console.log('🎉 DOM Content Loaded! Page is ready.');
+            console.log('📊 Final data check before init:', data);
+            console.log('   Sessions count:', data.sessions.length);
+            console.log('   Assignments count:', data.assignments.length);
+            console.log('   Classes count:', data.classes.length);
+            initCalendar();
+            console.log('✅ Calendar initialized!');
+        });
+
+        console.log('✅ Script loaded completely!');
     </script>
 </body>
 </html>
