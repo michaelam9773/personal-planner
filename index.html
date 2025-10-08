@@ -1036,6 +1036,10 @@
                             sessions: 5
                         };
                     }
+                    // Make sure dayDates exist
+                    if (!parsed.dayDates) {
+                        parsed.dayDates = {};
+                    }
                     return parsed;
                 }
             } catch (e) {
