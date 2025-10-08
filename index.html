@@ -548,6 +548,48 @@
             border-radius: 4px;
         }
 
+        .note-item {
+            background: #FAFAFA;
+            border-left: 3px solid #FFD93D;
+            padding: 12px;
+            margin-bottom: 8px;
+            border-radius: 6px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.2s;
+        }
+
+        .note-item:hover {
+            background: #FFFEF5;
+        }
+
+        .note-item.completed {
+            opacity: 0.6;
+            text-decoration: line-through;
+            border-left-color: #999;
+        }
+
+        .note-text {
+            flex: 1;
+            cursor: pointer;
+        }
+
+        .note-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .note-delete {
+            background: #ff6b6b;
+            color: white;
+            border: none;
+            padding: 4px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.85em;
+        }
+
         .modal {
             display: none;
             position: fixed;
@@ -924,6 +966,19 @@
             </div>
 
             <div class="calendar" id="calendar"></div>
+
+            <div class="widget" style="margin-top: 30px;">
+                <div class="widget-title">📝 Quick Notes & Tasks</div>
+                <div style="margin-bottom: 15px;">
+                    <input type="text" 
+                           id="noteInput" 
+                           placeholder="Add a quick note or task..." 
+                           style="width: calc(100% - 120px); display: inline-block; margin-right: 10px;"
+                           onkeypress="if(event.key==='Enter') addNote()">
+                    <button onclick="addNote()" style="width: 100px; display: inline-block;">Add</button>
+                </div>
+                <div id="notesList"></div>
+            </div>
         </div>
     </div>
 
@@ -1082,6 +1137,9 @@
                     if (!parsed.goals.pomodoros) {
                         parsed.goals.pomodoros = 8;
                     }
+                    if (!parsed.notes) {
+                        parsed.notes = [];
+                    }
                     return parsed;
                 }
             } catch (e) {
@@ -1098,7 +1156,8 @@
                 ],
                 dayDates: {},
                 goals: { assignments: 10, sessions: 5, pomodoros: 8 },
-                pomodorosCompleted: 0
+                pomodorosCompleted: 0,
+                notes: []
             };
         }
 
@@ -1569,10 +1628,72 @@
             document.querySelector('.timer-preset-btn').classList.add('active');
         }
 
+        function addNote() {
+            const input = document.getElementById('noteInput');
+            const text = input.value.trim();
+            
+            if (!text) {
+                alert('Please enter a note or task!');
+                return;
+            }
+            
+            const note = {
+                id: Date.now().toString(),
+                text: text,
+                completed: false
+            };
+            
+            data.notes.push(note);
+            saveData();
+            renderNotes();
+            input.value = '';
+        }
+
+        function renderNotes() {
+            const container = document.getElementById('notesList');
+            
+            if (data.notes.length === 0) {
+                container.innerHTML = '<p style="color: #999; text-align: center; padding: 20px;">No notes yet. Add one above!</p>';
+                return;
+            }
+            
+            container.innerHTML = data.notes.map(note => `
+                <div class="note-item ${note.completed ? 'completed' : ''}">
+                    <div class="note-text" onclick="toggleNoteComplete('${note.id}')">
+                        <input type="checkbox" ${note.completed ? 'checked' : ''} 
+                               onclick="event.stopPropagation(); toggleNoteComplete('${note.id}')"
+                               style="margin-right: 10px;">
+                        ${note.text}
+                    </div>
+                    <div class="note-actions">
+                        <button class="note-delete" onclick="deleteNote('${note.id}')">×</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function toggleNoteComplete(noteId) {
+            const note = data.notes.find(n => n.id === noteId);
+            if (note) {
+                note.completed = !note.completed;
+                saveData();
+                renderNotes();
+            }
+        }
+
+        function deleteNote(noteId) {
+            if (confirm('Delete this note?')) {
+                data.notes = data.notes.filter(n => n.id !== noteId);
+                saveData();
+                renderNotes();
+            }
+        }
+
         window.addEventListener('DOMContentLoaded', function() {
             loadQuote();
             initCalendar();
             updateTimerDisplay();
+            renderNotes();
         });
     </script>
 </body>
