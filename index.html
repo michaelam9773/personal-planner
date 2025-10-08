@@ -17,9 +17,68 @@
             min-height: 100vh;
             padding: 20px;
             color: #333;
+            position: relative;
+            overflow-x: hidden;
         }
 
-        /* Intro Animation */
+        /* Decorative floating elements */
+        .decoration {
+            position: fixed;
+            pointer-events: none;
+            opacity: 0.4;
+            z-index: 0;
+        }
+
+        .decoration-1 {
+            top: 10%;
+            left: 5%;
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            background: radial-gradient(circle, #FFB6C1, transparent);
+            animation: float 6s ease-in-out infinite;
+            box-shadow: 0 0 60px rgba(255, 182, 193, 0.4);
+        }
+
+        .decoration-2 {
+            top: 60%;
+            right: 8%;
+            width: 220px;
+            height: 220px;
+            border-radius: 50%;
+            background: radial-gradient(circle, #B2D3A8, transparent);
+            animation: float 8s ease-in-out infinite 1s;
+            box-shadow: 0 0 80px rgba(178, 211, 168, 0.4);
+        }
+
+        .decoration-3 {
+            bottom: 15%;
+            left: 10%;
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background: radial-gradient(circle, #E6E6FA, transparent);
+            animation: float 7s ease-in-out infinite 2s;
+            box-shadow: 0 0 70px rgba(230, 230, 250, 0.5);
+        }
+
+        .decoration-4 {
+            top: 30%;
+            right: 25%;
+            width: 130px;
+            height: 130px;
+            border-radius: 50%;
+            background: radial-gradient(circle, #FFD93D, transparent);
+            animation: float 9s ease-in-out infinite 3s;
+            box-shadow: 0 0 60px rgba(255, 217, 61, 0.3);
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) translateX(0px); }
+            33% { transform: translateY(-25px) translateX(15px); }
+            66% { transform: translateY(15px) translateX(-20px); }
+        }
+
         .intro-overlay {
             position: fixed;
             top: 0;
@@ -110,17 +169,134 @@
             }
         }
 
-        .container {
-            max-width: 1400px;
+        .main-layout {
+            display: flex;
+            gap: 30px;
+            max-width: 1600px;
             margin: 0 auto;
             opacity: 0;
             animation: fadeIn 1s ease-out 2.625s forwards;
+            position: relative;
+            z-index: 1;
         }
 
         @keyframes fadeIn {
             to {
                 opacity: 1;
             }
+        }
+
+        .sidebar {
+            width: 280px;
+            flex-shrink: 0;
+        }
+
+        .main-content {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .widget {
+            background: white;
+            border: 2px solid #FFB6C1;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        }
+
+        .music-widget {
+            background: linear-gradient(135deg, rgba(255, 182, 193, 0.1), rgba(230, 230, 250, 0.1));
+        }
+
+        .playlist-btn {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 10px;
+            background: white;
+            border: 2px solid #E6E6FA;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.95em;
+            color: #666;
+        }
+
+        .playlist-btn:hover {
+            background: #FFF5F7;
+            border-color: #FFB6C1;
+            transform: translateX(5px);
+        }
+
+        .playlist-btn.active {
+            background: #FFB6C1;
+            border-color: #FFB6C1;
+            color: white;
+        }
+
+        .widget-title {
+            font-size: 1.3em;
+            color: #FFB6C1;
+            font-weight: bold;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .quote-text {
+            font-style: italic;
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+
+        .quote-author {
+            text-align: right;
+            color: #B2D3A8;
+            font-size: 0.9em;
+            font-weight: bold;
+        }
+
+        .progress-item {
+            margin-bottom: 15px;
+        }
+
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+            font-size: 0.9em;
+            color: #666;
+        }
+
+        .goal-edit {
+            cursor: pointer;
+            color: #FFB6C1;
+            text-decoration: underline;
+            font-size: 0.85em;
+        }
+
+        .goal-edit:hover {
+            color: #FF6B9D;
+        }
+
+        .progress-bar-container {
+            width: 100%;
+            height: 20px;
+            background: #F0F0F0;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #FFB6C1, #E6E6FA);
+            border-radius: 10px;
+            transition: width 0.3s ease;
         }
 
         .header {
@@ -209,7 +385,7 @@
 
         .calendar {
             display: grid;
-            grid-template-columns: repeat(7, 1fr);
+            grid-template-columns: repeat(5, 1fr);
             gap: 15px;
             margin-bottom: 30px;
         }
@@ -237,6 +413,42 @@
             text-align: center;
             padding-bottom: 10px;
             border-bottom: 2px solid #FFE6EB;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .day-name {
+            display: inline;
+        }
+
+        .day-date-inline {
+            display: inline;
+        }
+
+        .day-date-inline input {
+            border: none;
+            background: transparent;
+            color: #FFB6C1;
+            font-size: 1em;
+            font-weight: bold;
+            font-family: 'Trebuchet MS', sans-serif;
+            width: 70px;
+            text-align: center;
+            padding: 0;
+        }
+
+        .day-date-inline input:focus {
+            outline: none;
+            background: rgba(255, 182, 193, 0.1);
+            border-radius: 4px;
+            padding: 2px 4px;
+        }
+
+        .day-date-inline input::placeholder {
+            color: rgba(255, 182, 193, 0.5);
         }
 
         .study-session {
@@ -337,7 +549,6 @@
             border-radius: 4px;
         }
 
-        /* Modal Styles */
         .modal {
             display: none;
             position: fixed;
@@ -453,11 +664,6 @@
             border-radius: 4px;
             cursor: pointer;
             font-size: 0.85em;
-            text-shadow: none;
-        }
-
-        .delete-class:hover {
-            background: #ff5252;
         }
 
         .add-session-btn {
@@ -475,7 +681,98 @@
             color: #E6E6FA;
         }
 
+        /* Pomodoro Timer */
+        .timer-fab {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, #FFB6C1, #E6E6FA);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(255, 182, 193, 0.4);
+            transition: all 0.3s;
+            z-index: 100;
+            font-size: 2em;
+        }
+
+        .timer-fab:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 25px rgba(255, 182, 193, 0.6);
+        }
+
+        .timer-modal-content {
+            background: white;
+            border: 3px solid #FFB6C1;
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 400px;
+            width: 90%;
+            box-shadow: 0 10px 40px rgba(255, 182, 193, 0.3);
+            text-align: center;
+        }
+
+        .timer-display {
+            font-size: 4em;
+            font-weight: bold;
+            color: #FFB6C1;
+            margin: 30px 0;
+            font-family: 'Courier New', monospace;
+        }
+
+        .timer-presets {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            justify-content: center;
+        }
+
+        .timer-preset-btn {
+            padding: 10px 20px;
+            background: #E6E6FA;
+            color: #666;
+            border: 2px solid #E6E6FA;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s;
+        }
+
+        .timer-preset-btn:hover, .timer-preset-btn.active {
+            background: #FFB6C1;
+            border-color: #FFB6C1;
+            color: white;
+        }
+
+        .timer-controls {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .timer-control-btn {
+            padding: 15px 30px;
+            font-size: 1.1em;
+            border-radius: 10px;
+        }
+
         @media (max-width: 1200px) {
+            .main-layout {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                width: 100%;
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                gap: 20px;
+            }
+
             .calendar {
                 grid-template-columns: repeat(3, 1fr);
             }
@@ -485,10 +782,20 @@
             .calendar {
                 grid-template-columns: 1fr;
             }
+
+            .sidebar {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
 <body>
+    <!-- Decorative elements -->
+    <div class="decoration decoration-1"></div>
+    <div class="decoration decoration-2"></div>
+    <div class="decoration decoration-3"></div>
+    <div class="decoration decoration-4"></div>
+
     <!-- Intro Animation -->
     <div class="intro-overlay">
         <div class="intro-logo">
@@ -498,28 +805,84 @@
         </div>
     </div>
 
-    <div class="container">
-        <div class="header">
-            <div class="logo">
-                <div class="ring ring-1"></div>
-                <div class="ring ring-2"></div>
-                <div class="ring ring-3"></div>
+    <!-- Timer FAB -->
+    <div class="timer-fab" onclick="openTimerModal()">⏱️</div>
+
+    <div class="main-layout">
+        <!-- Sidebar Widgets -->
+        <div class="sidebar">
+            <div class="widget music-widget">
+                <div class="widget-title">🎵 Study Music</div>
+                <button class="playlist-btn" onclick="openPlaylist('lofi')">
+                    ☕ Lofi Hip Hop Radio
+                </button>
+                <button class="playlist-btn" onclick="openPlaylist('classical')">
+                    🎹 Classical Focus
+                </button>
+                <button class="playlist-btn" onclick="openPlaylist('ambient')">
+                    🌙 Ambient Study
+                </button>
             </div>
-            <div>
-                <h1>Hi, Michaela!</h1>
+
+            <div class="widget">
+                <div class="widget-title">✨ Daily Motivation</div>
+                <div class="quote-text" id="quoteText">Loading...</div>
+                <div class="quote-author" id="quoteAuthor"></div>
+            </div>
+
+            <div class="widget">
+                <div class="widget-title">📊 This Week's Progress</div>
+                <div class="progress-item">
+                    <div class="progress-label">
+                        <span>Assignments Completed</span>
+                        <span id="completedCount">0/0</span>
+                    </div>
+                    <div class="progress-bar-container">
+                        <div class="progress-bar-fill" id="progressBar" style="width: 0%"></div>
+                    </div>
+                    <div style="text-align: right; margin-top: 5px;">
+                        <span class="goal-edit" onclick="editGoal('assignments')">Set goal</span>
+                    </div>
+                </div>
+                <div class="progress-item">
+                    <div class="progress-label">
+                        <span>Study Sessions This Week</span>
+                        <span id="sessionCount">0</span>
+                    </div>
+                    <div class="progress-bar-container">
+                        <div class="progress-bar-fill" id="sessionProgressBar" style="background: linear-gradient(90deg, #B2D3A8, #87CEEB);"></div>
+                    </div>
+                    <div style="text-align: right; margin-top: 5px;">
+                        <span class="goal-edit" onclick="editGoal('sessions')">Set goal</span>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <div class="controls">
-            <button onclick="openAddSessionModal()">+ Add Study Session</button>
-            <button onclick="openAddAssignmentModal()">+ Add Assignment</button>
-            <button onclick="openManageClassesModal()">⚙️ Manage Classes</button>
-        </div>
+        <!-- Main Content -->
+        <div class="main-content">
+            <div class="header">
+                <div class="logo">
+                    <div class="ring ring-1"></div>
+                    <div class="ring ring-2"></div>
+                    <div class="ring ring-3"></div>
+                </div>
+                <div>
+                    <h1>Hi, Michaela!</h1>
+                </div>
+            </div>
 
-        <div class="calendar" id="calendar"></div>
+            <div class="controls">
+                <button onclick="openAddSessionModal()">+ Add Study Session</button>
+                <button onclick="openAddAssignmentModal()">+ Add Assignment</button>
+                <button onclick="openManageClassesModal()">⚙️ Manage Classes</button>
+            </div>
+
+            <div class="calendar" id="calendar"></div>
+        </div>
     </div>
 
-    <!-- Add Session Modal -->
+    <!-- Session Modal -->
     <div class="modal" id="sessionModal">
         <div class="modal-content">
             <div class="modal-header">Add Study Session</div>
@@ -531,8 +894,6 @@
                     <option value="Wednesday">Wednesday</option>
                     <option value="Thursday">Thursday</option>
                     <option value="Friday">Friday</option>
-                    <option value="Saturday">Saturday</option>
-                    <option value="Sunday">Sunday</option>
                 </select>
             </div>
             <div class="form-group">
@@ -554,7 +915,7 @@
         </div>
     </div>
 
-    <!-- Add Assignment Modal -->
+    <!-- Assignment Modal -->
     <div class="modal" id="assignmentModal">
         <div class="modal-content">
             <div class="modal-header">Add Assignment</div>
@@ -593,7 +954,7 @@
         </div>
     </div>
 
-    <!-- Manage Classes Modal -->
+    <!-- Classes Modal -->
     <div class="modal" id="classesModal">
         <div class="modal-content">
             <div class="modal-header">Manage Classes</div>
@@ -628,22 +989,92 @@
         </div>
     </div>
 
-    <script>
-        const data = {
-            sessions: [],
-            assignments: [],
-            classes: [
-                { name: 'Mathematics', color: '#FFB6C1' },
-                { name: 'Science', color: '#B2D3A8' },
-                { name: 'English', color: '#E6E6FA' },
-                { name: 'History', color: '#87CEEB' }
-            ]
-        };
+    <!-- Timer Modal -->
+    <div class="modal" id="timerModal">
+        <div class="timer-modal-content">
+            <div class="modal-header">🍅 Pomodoro Timer</div>
+            
+            <div class="timer-presets">
+                <button class="timer-preset-btn active" onclick="setTimer(25)">25 min<br><small>Focus</small></button>
+                <button class="timer-preset-btn" onclick="setTimer(5)">5 min<br><small>Break</small></button>
+                <button class="timer-preset-btn" onclick="setTimer(15)">15 min<br><small>Long Break</small></button>
+            </div>
 
+            <div class="timer-display" id="timerDisplay">25:00</div>
+
+            <div class="timer-controls">
+                <button class="timer-control-btn" id="startBtn" onclick="startTimer()">Start</button>
+                <button class="timer-control-btn cancel-btn" onclick="resetTimer()">Reset</button>
+            </div>
+
+            <div class="modal-buttons">
+                <button onclick="closeModal('timerModal')">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const quotes = [
+            { text: "The expert in anything was once a beginner.", author: "Helen Hayes" },
+            { text: "Study while others are sleeping; work while others are loafing.", author: "William Arthur Ward" },
+            { text: "Success is the sum of small efforts repeated day in and day out.", author: "Robert Collier" },
+            { text: "The beautiful thing about learning is that nobody can take it away from you.", author: "B.B. King" },
+            { text: "Education is not preparation for life; education is life itself.", author: "John Dewey" },
+            { text: "Don't watch the clock; do what it does. Keep going.", author: "Sam Levenson" },
+            { text: "You don't have to be great to start, but you have to start to be great.", author: "Zig Ziglar" }
+        ];
+
+        function loadData() {
+            try {
+                const saved = localStorage.getItem('studyPlannerData');
+                if (saved) {
+                    const parsed = JSON.parse(saved);
+                    // Make sure goals exist
+                    if (!parsed.goals) {
+                        parsed.goals = {
+                            assignments: 10,
+                            sessions: 5
+                        };
+                    }
+                    return parsed;
+                }
+            } catch (e) {
+                console.error('Error loading data:', e);
+            }
+            return {
+                sessions: [],
+                assignments: [],
+                classes: [
+                    { name: 'Mathematics', color: '#FFB6C1' },
+                    { name: 'Science', color: '#B2D3A8' },
+                    { name: 'English', color: '#E6E6FA' },
+                    { name: 'History', color: '#87CEEB' }
+                ],
+                dayDates: {},
+                goals: {
+                    assignments: 10,
+                    sessions: 5
+                }
+            };
+        }
+
+        function saveData() {
+            try {
+                localStorage.setItem('studyPlannerData', JSON.stringify(data));
+            } catch (e) {
+                console.error('Error saving data:', e);
+            }
+        }
+
+        const data = loadData();
         let activeSession = null;
         let selectedClassColor = '#FFB6C1';
+        const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
 
-        const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+        // Timer variables
+        let timerInterval = null;
+        let timeLeft = 25 * 60;
+        let isRunning = false;
 
         function initCalendar() {
             const calendar = document.getElementById('calendar');
@@ -653,7 +1084,16 @@
                 const dayColumn = document.createElement('div');
                 dayColumn.className = 'day-column';
                 dayColumn.innerHTML = `
-                    <div class="day-header">${day}</div>
+                    <div class="day-header">
+                        <span class="day-name">${day}</span>
+                        <span class="day-date-inline">
+                            <input type="text" 
+                                   placeholder="MM/DD" 
+                                   value="${data.dayDates[day] || ''}"
+                                   onchange="updateDayDate('${day}', this.value)"
+                                   maxlength="5">
+                        </span>
+                    </div>
                     <div class="sessions-container" data-day="${day}"></div>
                     <button class="add-session-btn" onclick="openAddSessionModal('${day}')">+ Add Session</button>
                 `;
@@ -663,9 +1103,15 @@
             renderSessions();
         }
 
+        function updateDayDate(day, date) {
+            data.dayDates[day] = date;
+            saveData();
+        }
+
         function renderSessions() {
             days.forEach(day => {
                 const container = document.querySelector(`[data-day="${day}"]`);
+                if (!container) return;
                 container.innerHTML = '';
                 
                 const daySessions = data.sessions.filter(s => s.day === day);
@@ -693,6 +1139,8 @@
                     container.appendChild(sessionEl);
                 });
             });
+            
+            updateProgress();
         }
 
         function renderAssignment(assignment) {
@@ -717,6 +1165,53 @@
                     </div>
                 </div>
             `;
+        }
+
+        function updateProgress() {
+            // Assignments progress
+            const total = data.assignments.length;
+            const completed = data.assignments.filter(a => a.completed).length;
+            const assignmentGoal = data.goals.assignments;
+            const assignmentPercentage = assignmentGoal > 0 ? (completed / assignmentGoal) * 100 : 0;
+            
+            document.getElementById('completedCount').textContent = `${completed}/${assignmentGoal}`;
+            document.getElementById('progressBar').style.width = Math.min(assignmentPercentage, 100) + '%';
+            
+            // Sessions progress
+            const sessionCount = data.sessions.length;
+            const sessionGoal = data.goals.sessions;
+            const sessionPercentage = sessionGoal > 0 ? (sessionCount / sessionGoal) * 100 : 0;
+            
+            document.getElementById('sessionCount').textContent = `${sessionCount}/${sessionGoal}`;
+            document.getElementById('sessionProgressBar').style.width = Math.min(sessionPercentage, 100) + '%';
+        }
+
+        function editGoal(type) {
+            console.log('editGoal called with type:', type);
+            console.log('Current goals:', data.goals);
+            
+            const currentGoal = data.goals[type];
+            console.log('Current goal value:', currentGoal);
+            
+            const goalName = type === 'assignments' ? 'assignments completed' : 'study sessions';
+            const newGoalValue = window.prompt(`Set your weekly goal for ${goalName}:`, currentGoal);
+            
+            console.log('User entered:', newGoalValue);
+            
+            if (newGoalValue !== null && !isNaN(newGoalValue) && newGoalValue > 0) {
+                data.goals[type] = parseInt(newGoalValue);
+                console.log('Goal updated to:', data.goals[type]);
+                saveData();
+                updateProgress();
+            } else {
+                console.log('Invalid input or cancelled');
+            }
+        }
+
+        function loadQuote() {
+            const quote = quotes[Math.floor(Math.random() * quotes.length)];
+            document.getElementById('quoteText').textContent = `"${quote.text}"`;
+            document.getElementById('quoteAuthor').textContent = `— ${quote.author}`;
         }
 
         function formatTime(time) {
@@ -768,34 +1263,12 @@
                 return;
             }
             
-            container.innerHTML = '';
-            for (let i = 0; i < data.classes.length; i++) {
-                const cls = data.classes[i];
-                const classItem = document.createElement('div');
-                classItem.className = 'class-item';
-                classItem.style.borderLeftColor = cls.color;
-                
-                const nameDiv = document.createElement('div');
-                nameDiv.className = 'class-item-name';
-                nameDiv.textContent = cls.name;
-                
-                const deleteBtn = document.createElement('button');
-                deleteBtn.className = 'delete-class';
-                deleteBtn.textContent = 'Delete';
-                deleteBtn.type = 'button';
-                deleteBtn.dataset.classIndex = i;
-                deleteBtn.onclick = function(e) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    const indexToDelete = parseInt(this.dataset.classIndex);
-                    console.log('Button clicked! Index:', indexToDelete);
-                    deleteClass(indexToDelete);
-                };
-                
-                classItem.appendChild(nameDiv);
-                classItem.appendChild(deleteBtn);
-                container.appendChild(classItem);
-            }
+            container.innerHTML = data.classes.map((cls, index) => `
+                <div class="class-item" style="border-left-color: ${cls.color};">
+                    <div class="class-item-name">${cls.name}</div>
+                    <button class="delete-class" onclick="event.stopPropagation(); deleteClass(${index})">Delete</button>
+                </div>
+            `).join('');
         }
 
         function selectColor(color) {
@@ -828,25 +1301,16 @@
             
             data.classes.push({ name, color });
             document.getElementById('newClassName').value = '';
+            saveData();
             renderClassList();
         }
 
-        function deleteClass(idx) {
-            console.log('Delete clicked for index:', idx);
-            console.log('Current classes:', data.classes);
-            console.log('Class to delete:', data.classes[idx]);
-            const className = data.classes[idx].name;
-            console.log('Showing confirm dialog for:', className);
-            const confirmResult = confirm(`Delete ${className}? Assignments with this class will still exist.`);
-            console.log('Confirm result:', confirmResult);
-            if (confirmResult) {
-                console.log('User confirmed, deleting...');
-                data.classes.splice(idx, 1);
-                console.log('Classes after delete:', data.classes);
+        function deleteClass(index) {
+            const className = data.classes[index].name;
+            if (confirm(`Delete ${className}? Assignments with this class will still exist.`)) {
+                data.classes.splice(index, 1);
+                saveData();
                 renderClassList();
-                renderSessions();
-            } else {
-                console.log('User cancelled');
             }
         }
 
@@ -874,6 +1338,7 @@
             };
             
             data.sessions.push(session);
+            saveData();
             renderSessions();
             closeModal('sessionModal');
             
@@ -890,6 +1355,7 @@
                         a.sessionId = null;
                     }
                 });
+                saveData();
                 renderSessions();
             }
         }
@@ -917,6 +1383,7 @@
             };
             
             data.assignments.push(assignment);
+            saveData();
             renderSessions();
             closeModal('assignmentModal');
             
@@ -929,7 +1396,10 @@
             document.querySelectorAll('.study-session').forEach(s => {
                 s.classList.remove('active');
             });
-            document.querySelector(`[data-session-id="${sessionId}"]`).classList.add('active');
+            const sessionEl = document.querySelector(`[data-session-id="${sessionId}"]`);
+            if (sessionEl) {
+                sessionEl.classList.add('active');
+            }
             activeSession = sessionId;
         }
 
@@ -937,6 +1407,7 @@
             const assignment = data.assignments.find(a => a.id === assignmentId);
             if (assignment) {
                 assignment.completed = !assignment.completed;
+                saveData();
                 renderSessions();
             }
         }
@@ -955,11 +1426,102 @@
             const assignment = data.assignments.find(a => a.id === assignmentId);
             if (assignment) {
                 assignment.sessionId = sessionId;
+                saveData();
                 renderSessions();
             }
         }
 
-        initCalendar();
+        // Timer Functions
+        function openTimerModal() {
+            document.getElementById('timerModal').classList.add('active');
+        }
+
+        function setTimer(minutes) {
+            timeLeft = minutes * 60;
+            updateTimerDisplay();
+            if (isRunning) {
+                stopTimer();
+            }
+            
+            document.querySelectorAll('.timer-preset-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.closest('.timer-preset-btn').classList.add('active');
+        }
+
+        function updateTimerDisplay() {
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            document.getElementById('timerDisplay').textContent = 
+                `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+
+        function startTimer() {
+            if (isRunning) {
+                stopTimer();
+                document.getElementById('startBtn').textContent = 'Start';
+            } else {
+                isRunning = true;
+                document.getElementById('startBtn').textContent = 'Pause';
+                
+                timerInterval = setInterval(() => {
+                    if (timeLeft > 0) {
+                        timeLeft--;
+                        updateTimerDisplay();
+                    } else {
+                        stopTimer();
+                        alert('⏰ Time is up! Great work! 🎉');
+                        document.getElementById('startBtn').textContent = 'Start';
+                    }
+                }, 1000);
+            }
+        }
+
+        function stopTimer() {
+            isRunning = false;
+            if (timerInterval) {
+                clearInterval(timerInterval);
+                timerInterval = null;
+            }
+        }
+
+        function resetTimer() {
+            stopTimer();
+            timeLeft = 25 * 60;
+            updateTimerDisplay();
+            document.getElementById('startBtn').textContent = 'Start';
+            
+            document.querySelectorAll('.timer-preset-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelector('.timer-preset-btn').classList.add('active');
+        }
+
+        // Music Functions
+        const playlists = {
+            lofi: 'https://www.youtube.com/watch?v=jfKfPfyJRdk',
+            classical: 'https://www.youtube.com/watch?v=4I_NYya-WWg',
+            ambient: 'https://www.youtube.com/watch?v=lTRiuFIWV54'
+        };
+
+        function openPlaylist(type) {
+            window.open(playlists[type], '_blank');
+            
+            const clickedBtn = document.querySelector(`.playlist-btn[onclick="openPlaylist('${type}')"]`);
+            document.querySelectorAll('.playlist-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            if (clickedBtn) {
+                clickedBtn.classList.add('active');
+                
+                setTimeout(() => {
+                    clickedBtn.classList.remove('active');
+                }, 2000);
+            }
+        }
+
+        // Initialize
+        window.addEventListener('DOMContentLoaded', function() {
+            loadQuote();
+            initCalendar();
+            updateTimerDisplay();
+        });
     </script>
 </body>
 </html>
