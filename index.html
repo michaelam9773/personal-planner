@@ -689,6 +689,9 @@
         }
 
         function calculateEndTime(startTime, duration) {
+            if (!startTime || typeof startTime !== 'string') {
+                return 'N/A';
+            }
             const [hours, minutes] = startTime.split(':');
             const startDate = new Date();
             startDate.setHours(parseInt(hours), parseInt(minutes), 0);
