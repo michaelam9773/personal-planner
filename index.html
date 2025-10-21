@@ -17,6 +17,77 @@
             min-height: 100vh;
             padding: 20px;
             color: #333;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        .background-circles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .circle {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.15;
+            animation: float 20s infinite ease-in-out;
+        }
+
+        .circle-1 {
+            width: 300px;
+            height: 300px;
+            background: #FFB6C1;
+            top: 10%;
+            left: 5%;
+            animation-delay: 0s;
+        }
+
+        .circle-2 {
+            width: 200px;
+            height: 200px;
+            background: #B2D3A8;
+            top: 60%;
+            right: 10%;
+            animation-delay: 3s;
+        }
+
+        .circle-3 {
+            width: 150px;
+            height: 150px;
+            background: #E6E6FA;
+            bottom: 20%;
+            left: 15%;
+            animation-delay: 6s;
+        }
+
+        .circle-4 {
+            width: 250px;
+            height: 250px;
+            background: #FFD1DC;
+            top: 40%;
+            right: 5%;
+            animation-delay: 9s;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0) translateX(0) scale(1);
+            }
+            25% {
+                transform: translateY(-30px) translateX(20px) scale(1.1);
+            }
+            50% {
+                transform: translateY(-50px) translateX(-20px) scale(0.9);
+            }
+            75% {
+                transform: translateY(-20px) translateX(30px) scale(1.05);
+            }
         }
 
         .intro-overlay {
@@ -92,6 +163,8 @@
         .container {
             max-width: 1400px;
             margin: 0 auto;
+            position: relative;
+            z-index: 1;
         }
 
         header {
@@ -261,6 +334,12 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            flex-shrink: 0;
+        }
+        
+        .delete-assignment:hover {
+            background: #ff5252;
+            transform: scale(1.1);
         }
 
         .complete-checkbox {
@@ -369,6 +448,7 @@
             gap: 15px;
             max-height: 90vh;
             overflow-y: auto;
+            z-index: 10;
         }
 
         .widget {
@@ -395,6 +475,9 @@
             font-weight: bold;
             cursor: pointer;
             margin-bottom: 10px;
+            text-decoration: none;
+            display: block;
+            text-align: center;
         }
 
         .notes-widget textarea {
@@ -433,6 +516,13 @@
     </style>
 </head>
 <body>
+    <div class="background-circles">
+        <div class="circle circle-1"></div>
+        <div class="circle circle-2"></div>
+        <div class="circle circle-3"></div>
+        <div class="circle circle-4"></div>
+    </div>
+
     <div class="intro-overlay">
         <div class="intro-logo">
             <div class="intro-ring intro-ring-1"></div>
@@ -459,18 +549,18 @@
         </div>
 
         <div class="week-grid" id="weekGrid"></div>
+    </div>
 
-        <div class="sidebar">
-            <div class="widget music-player">
-                <h3>🎵 Study Music</h3>
-                <a href="https://www.youtube.com/watch?v=jfKfPfyJRdk" target="_blank" class="music-btn">Classical Study Music</a>
-                <a href="https://www.youtube.com/watch?v=5qap5aO4i9A" target="_blank" class="music-btn">Lofi Hip Hop</a>
-            </div>
+    <div class="sidebar">
+        <div class="widget music-player">
+            <h3>🎵 Study Music</h3>
+            <a href="https://www.youtube.com/watch?v=jfKfPfyJRdk" target="_blank" class="music-btn">Classical Study Music</a>
+            <a href="https://www.youtube.com/watch?v=5qap5aO4i9A" target="_blank" class="music-btn">Lofi Hip Hop</a>
+        </div>
 
-            <div class="widget notes-widget">
-                <h3>Quick Notes</h3>
-                <textarea id="quickNotes" placeholder="Jot down quick reminders..." oninput="saveNotes()"></textarea>
-            </div>
+        <div class="widget notes-widget">
+            <h3>Quick Notes</h3>
+            <textarea id="quickNotes" placeholder="Jot down quick reminders..." oninput="saveNotes()"></textarea>
         </div>
     </div>
 
